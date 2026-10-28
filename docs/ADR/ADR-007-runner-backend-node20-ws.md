@@ -1,13 +1,13 @@
 # ADR-007 — Runner do backend autoritativo: Node 20 + `ws`, actor em memória por sala
 
-- **Status:** Accepted
+- **Status:** Aceita
 - **Data:** 2026-10-28
 - **Issue:** [TIC-17](https://linear.app/tictactoe2/issue/TIC-17)
 - **Decisores:** O Mais (Tech Lead) + Béquin (Back-Ender); regra executiva do Mandão: simplicidade > performance quando empate (PRD)
 
 ## Contexto
 
-A SPEC-004 (Trilha B — multiplayer serverless) modela o backend como **actor por sala** (FSM pura §3, relógio Fischer servidor-only §2.4, limites de rede §2.3, `resume_token` HMAC §4.2), mas ainda citava artefatos de PartyKit (`packages/backend/partykit.json` na B1; hibernation/`serializeAttachment` no §7) — **PartyKit foi excluído da decisão executiva** e o runner ficou indefinido. As tasks B1 (setup) e B3 (FSM pura) progridem sem essa decisão; B6 (sala/actor, integração com sockets) não.
+A SPEC-004 (Trilha B — multiplayer serverless) modela o backend como **actor por sala** (FSM pura §3, relógio Fischer servidor-only §2.4, limites de rede §2.3, `resume_token` — SPEC-004 §1.4 · base03 §4.2), mas ainda citava artefatos de PartyKit (`packages/backend/partykit.json` na B1; hibernation/`serializeAttachment` no §7) — **PartyKit foi excluído da decisão executiva** e o runner ficou indefinido. As tasks B1 (setup) e B3 (FSM pura) progridem sem essa decisão; B6 (sala/actor, integração com sockets) não.
 
 Requisitos do runner: WebSocket JSON + zod (via `@ttt/shared/contracts`, PR #2), 2 jogadores/sala, reconexão com `resume_token`, sem persistência durante a partida, Zero-PII, testes com sockets simulados (Done Definition da B6).
 
