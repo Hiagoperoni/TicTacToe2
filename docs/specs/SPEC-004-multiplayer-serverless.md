@@ -166,7 +166,7 @@ export interface OnlineSession {
 
 | # | Arquivos exatos | Depende de | Done Definition |
 | :--- | :--- | :--- | :--- |
-| B1 | `package.json` raiz (workspaces, `zod`) · `packages/backend/package.json` · `packages/backend/tsconfig.json` | — | `npm install` + `tsc --noEmit` limpos |
+| B1 | `package.json` raiz (workspaces, `zod`) · `packages/backend/package.json` · `packages/backend/partykit.json` · `packages/backend/tsconfig.json` | — | `npm install` + `tsc --noEmit` limpos |
 | B2 | `packages/shared/src/contracts/server-protocol.ts` · `game-state.ts` · `online-session.ts` (Task 0) · **endurecimento de `stateFromBoards`** (`packages/shared/src/domain/rules.ts`: `activeBoard` fora de 0..8 ou sub-tabuleiro resolvido ⇒ `RangeError` — corrige débito conhecido) | B1 | `packages/shared/tests/contracts/server-protocol.test.ts` + teste novo de `stateFromBoards` verde; suíte antiga verde |
 | B3 | `packages/backend/src/room/fsm.ts` (transições puras da §3) | B1 | `packages/backend/tests/fsm.test.ts` cobre todas as linhas da tabela |
 | B4 | `packages/backend/src/clock/fischer.ts` (Fischer + `L_oneway` + drift 200 ms) · `packages/backend/src/net/limits.ts` (16 KB, 10/s, 5 conn/s) | B1 | `packages/backend/tests/clock.test.ts` e `packages/backend/tests/limits.test.ts` verde |
@@ -220,7 +220,8 @@ Trilhas não colidem: B edita `packages/backend` + `packages/shared/src`
 Fila de matchmaking, janela ΔMMR, Glicko-2 e Ghost Bot (base03 §6 → SPEC
 futura); persistência Supabase/`finalize_match`/leaderboards (base03 §8 ·
 TDD §5 → SPEC futura); anti-cheat comportamental (entropia/CPL, base03 §7);
-variantes de tabuleiro, Pie Rule no servidor, replay DAN/PGN; espectadores.
+WebSocket hibernation/`serializeAttachment` (otimização de custo); variantes
+de tabuleiro, Pie Rule no servidor, replay DAN/PGN; espectadores.
 
 ## 8. Validação
 
