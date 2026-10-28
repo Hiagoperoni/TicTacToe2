@@ -76,3 +76,20 @@ describe('ServerEventSchema (SPEC-004 §1.1)', () => {
     expect(() => ServerEventSchema.parse({ type: 'MOVE_ACCEPTED', move: { cellIndex: 0, macroIndex: 0, microIndex: 0, dan: 'A.a' } })).toThrow();
   });
 });
+
+describe('fronteira de validação cross-field (SPEC-004 §5.1)', () => {
+  it('schema aceita cellIndex divergente de macro*9+micro — consistência é do servidor (B6 room.ts), não do schema', () => {
+    // cellIndex 5 ≠ macroIndex 4 * 9 + microIndex 4 = 40:
+    // o payload é SINTATICAMENTE válido no schema (campos independentes);
+    // a validação cross-field que rejeita com MOVE_REJECTED é do room.ts (task B6),
+    // porque zod discriminated union não cruza campos entre si (mesma decisão da SPEC).
+    const incoherent = {
+      cellIndex: 5,
+      macroIndex: 4,
+      microIndex: 4,
+      dan: 'B.b',
+      pieSwap: false,
+    };
+    expect(() => MovePayloadSchema.parse(incoherent)).not.toThrow();
+  });
+});

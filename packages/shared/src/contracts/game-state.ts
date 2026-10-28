@@ -1,3 +1,4 @@
+
 import type { GameState } from '../domain';
 import { z } from 'zod';
 import { stateFromBoards } from '../domain';
@@ -26,12 +27,12 @@ export function encodeGameState(state: GameState): GameStatePayload {
 
 /** Converte GameStatePayload (rede) => GameState (domínio). */
 export function decodeGameState(payload: GameStatePayload): GameState {
-  // Usa stateFromBoards com validação de activeBoard
+  // moveCount é derivado das máscaras (stateFromBoards não recebe moveCount):
+  // divergência no payload não afeta o domínio — a contagem real é a das células ocupadas
   return stateFromBoards({
     x: payload.x,
     o: payload.o,
     activeBoard: payload.activeBoard,
     player: payload.player,
-    moveCount: payload.moveCount,
   });
 }

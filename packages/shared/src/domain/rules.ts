@@ -175,7 +175,7 @@ export function stateFromBoards(input: StateInput): GameState {
   const activeBoard = input.activeBoard;
   if (activeBoard === undefined || activeBoard === null) {
     // validado como null acima
-  } else if (activeBoard >= 0 && activeBoard <= 8) {
+  } else if (Number.isInteger(activeBoard) && activeBoard >= 0 && activeBoard <= 8) {
     const board = activeBoard;
     const micro = statusFromMasks(macroX, macroO, macroTied, board);
     if (micro !== 'active') {

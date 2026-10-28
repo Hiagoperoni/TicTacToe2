@@ -22,7 +22,7 @@ describe('GameStatePayloadSchema (SPEC-004 §1.2)', () => {
       o: [0b1010, 0b1000, 0b10, 0, 0b1, 0, 0, 0, 0],
       activeBoard: 6,
       player: 2,
-      moveCount: 12,
+      moveCount: 11,
     });
     const decoded = decodeGameState(payloadOf(source));
     expect(decoded.status).toBe(source.status);

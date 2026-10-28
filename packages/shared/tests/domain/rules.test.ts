@@ -275,3 +275,11 @@ describe('regras: endurecimento de stateFromBoards (SPEC-004 B2)', () => {
     ).toThrow();
   });
 });
+
+describe('regras: endurecimento de stateFromBoards — QA PR #2', () => {
+  it('activeBoard fracionário (3.5) rejeita com RangeError — evita estado zombie', () => {
+    expect(() =>
+      stateFromBoards({ x: [], o: [], activeBoard: 3.5 }),
+    ).toThrow(RangeError);
+  });
+});
