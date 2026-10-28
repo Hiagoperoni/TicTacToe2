@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { GameStatePayloadSchema } from '@ttt/shared/contracts';
 import {
   applyMove,
   applyMoves,
@@ -225,5 +226,60 @@ describe('regras: consistência auxiliar', () => {
     expect(stateKey(state)).toBe(stateKey(state));
     expect(stateKey(state)).toContain('o...x....');
     expect(stateKey(state)).toMatch(/ 0 1$/);
+  });
+});
+
+describe('regras: endurecimento de stateFromBoards (SPEC-004 B2)', () => {
+  const baseLine = line([0, 1, 2]);
+
+  it('activeBoard apontando para sub-grid vencido por X rejeita', () => {
+    expect(() =>
+      stateFromBoards({ x: [baseLine], o: [], activeBoard: 0 }),
+    ).toThrow(RangeError);
+  });
+
+  it('activeBoard apontando para sub-grid empatado rejeita', () => {
+    // X: 0,2,3,7,8  O: 1,4,5,6 -> board 0 fica tied (todas as 9 células ocupadas, sem trinca)
+    expect(() =>
+      stateFromBoards({
+        x: [line([0, 2, 3, 7, 8])],
+        o: [line([1, 4, 5, 6])],
+        activeBoard: 0,
+      }),
+    ).toThrow(/resolvido/);
+  });
+
+  it('activeBoard fora de 0..8 rejeita', () => {
+    expect(() => stateFromBoards({ x: [], o: [], activeBoard: 9 })).toThrow(/0\.\.8/);
+    expect(() => stateFromBoards({ x: [], o: [], activeBoard: -1 })).toThrow(/0\.\.8/);
+  });
+
+  it('activeBoard null ou válido com sub-grid ativo passa', () => {
+    const free = stateFromBoards({ x: [baseLine], o: [], activeBoard: null });
+    expect(free.activeBoard).toBeNull();
+    const ok = stateFromBoards({ x: [baseLine], o: [], activeBoard: 3 });
+    expect(ok.activeBoard).toBe(3);
+  });
+
+  it('máscara acima de 9 bits é rejeitada no decode de rede (teto 511)', () => {
+    // O truncamento silencioso em stateFromBoards é comportamento de fixture;
+    // a fronteira de rede (GameStatePayloadSchema) é quem rejeita.
+    expect(() =>
+      GameStatePayloadSchema.parse({
+        x: [512, 0, 0, 0, 0, 0, 0, 0, 0],
+        o: [],
+        activeBoard: null,
+        player: 1,
+        moveCount: 0,
+      }),
+    ).toThrow();
+  });
+});
+
+describe('regras: endurecimento de stateFromBoards — QA PR #2', () => {
+  it('activeBoard fracionário (3.5) rejeita com RangeError — evita estado zombie', () => {
+    expect(() =>
+      stateFromBoards({ x: [], o: [], activeBoard: 3.5 }),
+    ).toThrow(RangeError);
   });
 });

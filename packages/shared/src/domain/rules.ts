@@ -276,6 +276,20 @@ export function stateFromBoards(input: StateInput): GameState {
     else if (isFull(xMask | oMask)) macroTied |= bit;
   }
 
+  // Validacao de activeBoard: deve ser null ou 0..8, e nao pode apontar para sub-grid resolvido
+  const activeBoard = input.activeBoard;
+  if (activeBoard === undefined || activeBoard === null) {
+    // validado como null acima
+  } else if (Number.isInteger(activeBoard) && activeBoard >= 0 && activeBoard <= 8) {
+    const board = activeBoard;
+    const micro = statusFromMasks(macroX, macroO, macroTied, board);
+    if (micro !== 'active') {
+      throw new RangeError(`stateFromBoards: activeBoard ${board} ja esta resolvido (${micro}), nao pode ser activeBoard`);
+    }
+  } else {
+    throw new RangeError(`stateFromBoards: activeBoard invalido ${activeBoard}, deve ser null ou 0..8`);
+  }
+
   let status: GameState['status'] = 'in_progress';
   let winner: Player | null = null;
   if (WIN_TABLE[macroX] === 1) {
