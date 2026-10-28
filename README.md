@@ -19,6 +19,8 @@ src/domain/    regras puras, bitboards, zero dependências externas
 src/ai/        MCTS (arena), políticas de rollout, PRNG, dificuldades
 src/worker/    Web Worker que transporta estado → jogada
 tests/         TDD: bitboards, regras, invariantes, política, MCTS
+docs/PRD.md    requisitos de produto
+docs/TDD.md    desenho técnico
 docs/specs/    especificações ativas
 docs/ADR/      decisões de arquitetura
 scripts/       benchmark
@@ -55,6 +57,10 @@ const { move } = search(state, optionsFor('competitivo', 42));
 ## Especificações e decisões
 
 - `AGENTS.md` — convenções, fluxo de especificação e guardrails para contribuintes/agentes.
+- `docs/PRD.md` — requisitos de produto: pilares, personas, mecânicas, modos,
+  economia F2P, NFRs e conformidade (v1.0.0, aprovado).
+- `docs/TDD.md` — desenho técnico: Clean Architecture/monorepo, bitboards,
+  MCTS, PartyKit/Supabase e estratégia de testes (v1.0.0, aprovado).
 - `docs/specs/base/` — specs de produto de origem (regras, IA, multiplayer,
   F2P, UX, pagamentos, privacidade) com índice e status de fatiamento.
 - `docs/specs/SPEC-001-regras-e-bitboards.md` — regras, bitboards, deadlock.

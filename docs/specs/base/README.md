@@ -5,6 +5,10 @@ e os ADRs (`docs/ADR/`). São **material de referência**, não contrato de
 implementação: tudo que será construído deve ser extraído para uma SPEC-XXX
 com contrato TypeScript e critério de aceite antes do início do dev.
 
+Também alimentam as SPECs os documentos de alto nível do projeto:
+[`docs/PRD.md`](../../PRD.md) (requisitos de produto) e
+[`docs/TDD.md`](../../TDD.md) (desenho técnico).
+
 | Arquivo | Escopo | Status |
 | :--- | :--- | :--- |
 | [01-regras-uttt-matematica.md](01-regras-uttt-matematica.md) | Regras formais do UTTT, notação, topologia | ✔ Consumida pela SPEC-001 |

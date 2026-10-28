@@ -23,6 +23,8 @@ src/domain/     regras puras + bitboards — ZERO dependências externas
 src/ai/         MCTS (arena), rollout, PRNG, dificuldades
 src/worker/     Web Worker: estado → jogada
 tests/          espelho de src/: domain/ e ai/
+docs/PRD.md     requisitos de produto (v1.0.0, aprovado)
+docs/TDD.md     desenho técnico (v1.0.0, aprovado)
 docs/specs/     SPEC-XXX contratos ativos (fonte da verdade p/ dev)
 docs/specs/base/  referências de produto de onde nascem as SPECs
 docs/ADR/       decisões estruturais (bitboard, imutabilidade, arena, tempo)
@@ -43,7 +45,8 @@ scripts/        benchmark
 
 ## Fluxo de especificação (obrigatório antes de dev)
 
-1. Requisito vem de `docs/specs/base/*` ou de pedido direto do usuário.
+1. Requisito vem de `docs/PRD.md` e `docs/TDD.md`, de `docs/specs/base/*`
+   ou de pedido direto do usuário.
 2. Escrever `docs/specs/SPEC-XXX-*.md` contendo:
    - contrato TypeScript das interfaces de fronteira (client ↔ engine,
      client ↔ servidor);
