@@ -1,6 +1,6 @@
 # SPEC-002 — Motor MCTS offline
 
-Fonte: `02. especificacao-tecnica-ia-uttt.md` (Downloads), §2.
+Fonte: [`base/02-especificacao-tecnica-ia.md`](base/02-especificacao-tecnica-ia.md), §2.
 
 ## 1. Contrato
 
@@ -50,7 +50,7 @@ Terminal na raiz ⇒ `move === null` e nenhuma iteração.
 | Terminal ⇒ `null` | `devolve null em posição terminal` |
 | Teto de tempo respeitado | `respeita o orçamento de tempo` |
 | Presets monotônicos ≤ 50 ms | `presets de dificuldade são monotônicos` |
-| Anti-suicídio no rollout | `tests/ai/policy.test.ts` |
+| Anti-suicídio no rollout | `packages/shared/tests/ai/policy.test.ts` |
 
 ## 5. Fora de escopo
 

@@ -1,13 +1,13 @@
 # Specs base (referência de produto)
 
 Documentos de origem que alimentam as SPECs ativas (`docs/specs/SPEC-XXX-*.md`)
-e os ADRs (`docs/ADR/`). São **material de referência**, não contrato de
+e os ADRs (`docs/adr/`). São **material de referência**, não contrato de
 implementação: tudo que será construído deve ser extraído para uma SPEC-XXX
 com contrato TypeScript e critério de aceite antes do início do dev.
 
 Também alimentam as SPECs os documentos de alto nível do projeto:
-[`docs/PRD.md`](../../PRD.md) (requisitos de produto) e
-[`docs/TDD.md`](../../TDD.md) (desenho técnico).
+[`docs/prd/PRD.md`](../../prd/PRD.md) (requisitos de produto) e
+[`docs/tdd/TDD.md`](../../tdd/TDD.md) (desenho técnico).
 
 | Arquivo | Escopo | Status |
 | :--- | :--- | :--- |
@@ -33,4 +33,4 @@ flowchart LR
 
 1. Extrair requisito da spec base → escrever `SPEC-XXX` com Tasks A/B paralelas.
 2. Validação técnica (Tech Lead) antes do dispatch aos devs.
-3. Decisões estruturais viram ADR em `docs/ADR/`.
+3. Decisões estruturais viram ADR em `docs/adr/`.

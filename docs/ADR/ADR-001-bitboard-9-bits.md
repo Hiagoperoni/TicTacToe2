@@ -22,4 +22,4 @@ responde vitória em uma leitura.
 - Vitória local O(1) via tabela; sem loops de linhas.
 - O MCTS opera sobre o mesmo formato, sem conversão.
 - Se o perfil de memória exigir, migrar para 3 × 27 bits é local a
-  `src/domain/bitboard.ts` e `rules.ts` — a API pública não muda.
+  `packages/shared/src/domain/bitboard.ts` e `rules.ts` — a API pública não muda.

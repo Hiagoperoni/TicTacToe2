@@ -1,7 +1,11 @@
 # Technical Design Document (TDD) — Ultimate Tic-Tac-Toe Engine & Platform
 
-**Versão:** 1.0.0  
+**Versão:** 1.1.0  
 **Status:** Aprovado para Implementação  
+**Histórico:** v1.1.0 — nomenclatura de pacotes atualizada para
+`packages/shared` · `packages/frontend` · `packages/backend` conforme
+[ADR-005](../adr/ADR-005-estrutura-monorepo-packages.md); desenho técnico
+inalterado. v1.0.0 — aprovação inicial.  
 **Arquitetura Base:** Clean Architecture, Domain-Driven Design (DDD), Monorepo TypeScript, Serverless Stateful Edge (Cloudflare / PartyKit) & Supabase (PostgreSQL Zero-PII).
 
 ---
@@ -15,35 +19,34 @@ A arquitetura do projeto é dividida em um Monorepo Monolítico com isolamento e
 ```
 +-----------------------------------------------------------------------+
 |                       PRESENTATION LAYER                              |
-|   (packages/ui - React, HTML5 Canvas 2D, Web Audio API, PWA Hooks)     |
+|   (packages/frontend - React, Canvas 2D, Web Audio, PWA Hooks)        |
 +-----------------------------------------------------------------------+
                                   │
                                   ▼
 +-----------------------------------------------------------------------+
 |                       APPLICATION LAYER                               |
-|   (packages/shared & packages/core - Use Cases, DTOs, Zod Schemas)    |
+|   (packages/shared - Use Cases, DTOs, Zod Schemas)                    |
 +-----------------------------------------------------------------------+
                                   │
                                   ▼
 +-----------------------------------------------------------------------+
 |                          DOMAIN LAYER                                 |
-|   (packages/core - Bitboards, UTTT Rules FSM, MCTS Engine, Glicko-2)  |
+|   (packages/shared - Bitboards, UTTT Rules FSM, MCTS, Glicko-2)       |
 |                     * ZERO External Dependencies *                    |
 +-----------------------------------------------------------------------+
                                   ▲
                                   │
 +-----------------------------------------------------------------------+
 |                      INFRASTRUCTURE LAYER                             |
-|   (packages/party-server - Cloudflare DO / PartyKit, Supabase Client) |
+|   (packages/backend - Cloudflare DO / PartyKit, Supabase Client)      |
 +-----------------------------------------------------------------------+
 ```
 
 ### 1.2 Mapeamento de Pacotes do Monorepo
 
-*   **`packages/core` (Domain Layer):** Contém toda a lógica matemática do jogo, a representação binária via Bitboards, a máquina de estados finitos (FSM), o motor MCTS (Monte Carlo Tree Search), o alocador de memória em Arena (Zero-GC) e o cálculo de Glicko-2. **Possui zero dependências externas ou de DOM/Navegador.**
-*   **`packages/shared` (Application Layer - Contratos e DTOs):** Define os Schemas de validação estrita via Zod, tipos TypeScript exportados, eventos do protocolo WebSocket, constantes do jogo e geradores de hashes HMAC.
-*   **`packages/ui` (Presentation Layer):** Contém os componentes React, motor de renderização gráfica em Canvas 2D com suporte a alta densidade de pixels (DPI scaling), gerenciador de animações por física de molas (Springs), sintetizador procedural Web Audio API, *Smart Auto-Zoom* e gerenciador de Web Workers para a IA.
-*   **`packages/party-server` (Infrastructure Layer):** Servidor autoritativo serverless baseado em Cloudflare Durable Objects (via PartyKit). Gerencia salas de jogo, sincronização de relógio Fischer, resiliência de conexão, fallback para Ghost Bots e persitência assíncrona no Supabase via RPCs.
+*   **`packages/shared` (Domain + Application Layer):** Regras matemáticas do jogo, representação binária via Bitboards, máquina de estados finitos (FSM), motor MCTS (Monte Carlo Tree Search), alocador de memória em Arena (Zero-GC), cálculo de Glicko-2 e os contratos da aplicação — schemas Zod, tipos TypeScript exportados, eventos do protocolo WebSocket, constantes do jogo e geradores de hashes HMAC. O núcleo (`packages/shared/src/domain` e `packages/shared/src/ai`) **possui zero dependências externas ou de DOM/Navegador**; os contratos ficam em `packages/shared/src/contracts`.
+*   **`packages/frontend` (Presentation Layer):** Contém os componentes React, motor de renderização gráfica em Canvas 2D com suporte a alta densidade de pixels (DPI scaling), gerenciador de animações por física de molas (Springs), sintetizador procedural Web Audio API, *Smart Auto-Zoom* e o Web Worker da IA (`packages/frontend/src/worker`).
+*   **`packages/backend` (Infrastructure Layer):** Servidor autoritativo serverless baseado em Cloudflare Durable Objects (via PartyKit). Gerencia salas de jogo, sincronização de relógio Fischer, resiliência de conexão, fallback para Ghost Bots e persitência assíncrona no Supabase via RPCs.
 
 ---
 
@@ -307,7 +310,7 @@ Para garantir que o software seja resiliente, livre de bugs de estado e imune a 
             /----------------           /     Unidade      \ (Vitest - Core Math, Bitboards, MCTS & FSM)
           /--------------------```
 
-### 6.1 Testes Unitários de Regras e Bitboards (`packages/core`)
+### 6.1 Testes Unitários de Regras e Bitboards (`packages/shared`)
 
 *   **Testes de Vitória $O(1)$:** Cobertura de 100% das 8 combinações de vitória em micro-tabuleiros contra as máscaras `WIN_MASKS`.
 *   **Testes de FSM & Redirecionamento:** Validação de jogadas válidas, imposição de *Free Move* em quadrantes encerrados e atribuição correta de `DRAW_NEUTRAL`.
@@ -340,7 +343,7 @@ test("Property-Based: Nenhuma sequência de jogadas aleatórias corrompe o Bitbo
 });
 ```
 
-### 6.3 Testes de Integração e E2E (`packages/party-server` e `packages/ui`)
+### 6.3 Testes de Integração e E2E (`packages/backend` e `packages/frontend`)
 
 *   **Testes de Integração de Rede (Vitest + PartyKit Test Harness):** Simulação de dois clientes disputando uma partida inteira via WebSockets, testando perda de pacotes, reconexão via `resume_token` e timeout do Relógio Fischer.
 *   **Testes E2E (Playwright):** Simulação de interação do usuário final em navegadores móbiles e desktop (Google Chrome, Safari Mobile), verificando a transição do *Smart Auto-Zoom*, o acionamento do sintetizador de áudio Web Audio e o rendering em Canvas.

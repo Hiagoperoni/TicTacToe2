@@ -1,15 +1,16 @@
 # SPEC-001 — Regras e bitboards do Ultimate Tic-Tac-Toe
 
-Fonte: `01. especificacao_ultimate_tic_tac_toe.md` e
-`02. especificacao-tecnica-ia-uttt.md` (Downloads).
+Fonte: [`base/01-regras-uttt-matematica.md`](base/01-regras-uttt-matematica.md) e
+[`base/02-especificacao-tecnica-ia.md`](base/02-especificacao-tecnica-ia.md)
+(originais em `Downloads\ttt2-specs`, migrados para `docs/specs/base/`).
 
 ## 1. Representação
 
 | Elemento | Representação | Onde |
 | :--- | :--- | :--- |
-| Micro-tabuleiro | 9 bits (`Uint16Array(9)` por jogador) | `src/domain/types.ts` |
+| Micro-tabuleiro | 9 bits (`Uint16Array(9)` por jogador) | `packages/shared/src/domain/types.ts` |
 | Macro-tabuleiro | 3 máscaras de 9 bits (`macroX`, `macroO`, `macroTied`) | idem |
-| Trincas locais | 8 máscaras de 9 bits + `WIN_TABLE[512]` | `src/domain/bitboard.ts` |
+| Trincas locais | 8 máscaras de 9 bits + `WIN_TABLE[512]` | `packages/shared/src/domain/bitboard.ts` |
 | Restrição de turno | `activeBoard: 0..8 \| null` | idem |
 
 Bit 0 = célula superior esquerda. Máscaras: `7, 56, 448, 73, 146, 292, 273, 84`.
@@ -27,8 +28,9 @@ Bit 0 = célula superior esquerda. Máscaras: `7, 56, 448, 73, 146, 292, 273, 84
 6. **Deadlock**: todos os 9 quadrantes resolvidos sem trinca macro ⇒ desempate
    quadrantes → células → vitória de O (Armageddon). Nunca empata.
 
-Testes: `tests/domain/rules.test.ts`, `tests/domain/invariants.test.ts`
-(200 partidas aleatórias completas), `tests/domain/bitboard.test.ts`.
+Testes: `packages/shared/tests/domain/rules.test.ts`,
+`packages/shared/tests/domain/invariants.test.ts`
+(200 partidas aleatórias completas), `packages/shared/tests/domain/bitboard.test.ts`.
 
 ## 3. Ordenação canônica de jogadas
 

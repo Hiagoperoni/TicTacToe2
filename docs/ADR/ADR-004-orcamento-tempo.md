@@ -10,7 +10,7 @@ Há duas exigências conflitantes nas fontes:
 - Spec técnica §3 (tabela de níveis): 50 ms (iniciante) até **1000 ms** (mestre),
   com 15.000–30.000 iterações no nível competitivo.
 
-Medição atual (`scripts/bench.ts`, Node 22): ~47 µs por iteração com rollout
+Medição atual (`packages/shared/scripts/bench.ts`, Node 22): ~47 µs por iteração com rollout
 heurístico. Em 45 ms cabem ~950 iterações — muito abaixo das 15.000 que a
 tabela assume para "competitivo", mas alinhado com o custo/iteração implícito
 na própria tabela (15.000 em 400 ms ≈ 27 µs).
