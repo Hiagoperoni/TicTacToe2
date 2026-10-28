@@ -24,7 +24,7 @@ Rationale: zero custo adicional, zero risco de incompatibilidade de runtime (zod
 ## Consequências
 
 - ✅ B6 desbloqueado; B1 vira `packages/backend/package.json` + `tsconfig.json` (sem `partykit.json`).
-- ⚠️ **Correção de SPEC-004:** B1 não cita mais `partykit.json`; hibernation/`serializeAttachment` saem do §7 e voltam só numa SPEC futura de otimização (edicao da spec fica com o Organizer na revisão).
+- ⚠️ **Correção de SPEC-004:** B1 não cita mais `partykit.json`; hibernation/`serializeAttachment` saem do §7 e voltam só numa SPEC futura de otimização (edição já incluída neste PR).
 - ⚠️ Escala vertical: salas em memória em 1 processo — quando houver persistência/multi-processo, reavaliar (SPEC de matchmaking/persistência, base03 §8, já listada como futura).
 - ❌ Alternativas rejeitadas: Cloudflare Durable Objects (actor nativo, mas setup/locação/testes mais pesados; custo em volume baixo); Bun/Deno + ws (runtimes menos maduros para o tooling atual do time).
 

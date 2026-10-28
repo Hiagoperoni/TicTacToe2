@@ -220,8 +220,7 @@ Trilhas não colidem: B edita `packages/backend` + `packages/shared/src`
 Fila de matchmaking, janela ΔMMR, Glicko-2 e Ghost Bot (base03 §6 → SPEC
 futura); persistência Supabase/`finalize_match`/leaderboards (base03 §8 ·
 TDD §5 → SPEC futura); anti-cheat comportamental (entropia/CPL, base03 §7);
-variantes
-de tabuleiro, Pie Rule no servidor, replay DAN/PGN; espectadores.
+variantes de tabuleiro, Pie Rule no servidor, replay DAN/PGN; espectadores.
 
 ## 8. Validação
 
