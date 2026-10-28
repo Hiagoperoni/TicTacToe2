@@ -5,7 +5,7 @@
  * clássicas (Selection / Expansion / Simulation / Backpropagation) e UCT
  * negamax com constante de exploração dinâmica.
  *
- * Ver docs/specs/SPEC-002-mcts.md e docs/ADR/ADR-003-arena-mcts.md.
+ * Ver docs/specs/SPEC-002-mcts.md e docs/adr/ADR-003-arena-mcts.md.
  */
 
 import {

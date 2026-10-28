@@ -1,11 +1,11 @@
 /**
  * Web Worker do motor de IA: recebe o estado + dificuldade e devolve a jogada.
- * Toda a lógica pesada fica em src/ai (puro); o worker apenas transporta.
+ * Toda a lógica pesada fica em packages/shared/src/ai (puro); o worker só transporta.
  */
 
-import type { GameState } from '../domain';
-import { search } from '../ai/mcts';
-import { optionsFor, type Difficulty } from '../ai/difficulty';
+import type { GameState } from '@ttt/shared/domain';
+import { search } from '@ttt/shared/ai/mcts';
+import { optionsFor, type Difficulty } from '@ttt/shared/ai/difficulty';
 
 export interface AiRequest {
   readonly id: number;

@@ -1,6 +1,6 @@
 /**
  * Constantes estruturais do Ultimate Tic-Tac-Toe.
- * Ver docs/specs/SPEC-001-regras-e-bitboards.md e docs/ADR/ADR-001-bitboard.md.
+ * Ver docs/specs/SPEC-001-regras-e-bitboards.md e docs/adr/ADR-001-bitboard-9-bits.md.
  */
 
 /** Quantidade de células (bits) de um micro-tabuleiro. */
