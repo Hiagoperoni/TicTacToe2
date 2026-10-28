@@ -54,6 +54,9 @@ const { move } = search(state, optionsFor('competitivo', 42));
 
 ## Especificações e decisões
 
+- `AGENTS.md` — convenções, fluxo de especificação e guardrails para contribuintes/agentes.
+- `docs/specs/base/` — specs de produto de origem (regras, IA, multiplayer,
+  F2P, UX, pagamentos, privacidade) com índice e status de fatiamento.
 - `docs/specs/SPEC-001-regras-e-bitboards.md` — regras, bitboards, deadlock.
 - `docs/specs/SPEC-002-mcts.md` — motor MCTS e contrato da API.
 - `docs/ADR/` — bitboard de 9 bits, estado imutável, arena, orçamento de tempo.
