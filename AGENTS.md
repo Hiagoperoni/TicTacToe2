@@ -93,8 +93,8 @@ tsconfig.json         paths @ttt/shared/* · include de packages/*
 
 - [x] SPEC-001 regras/bitboards · [x] SPEC-002 MCTS · [x] Web Worker
 - [x] Estrutura monorepo `packages/{shared,frontend,backend}` (ADR-005)
-- [ ] **Passo 1 — SPEC-003 interface jogável** (Trilha A, com mocks)
-- [ ] **Passo 2 — SPEC-004 multiplayer serverless** (Trilha B, base 03)
+- [ ] **Passo 1 — SPEC-003 interface jogável** (Trilha A, com mocks) — spec escrita, aguarda validação do Tech Lead
+- [ ] **Passo 2 — SPEC-004 multiplayer serverless** (Trilha B, base 03) — spec escrita, aguarda validação do Tech Lead
 - [ ] Zobrist + transposição · UTTT-FEN/replay DAN · mineração de puzzles
 - [ ] Pie Rule, relógio Fischer e variantes (bases 01/03/05)
 - [ ] Economia F2P e pagamentos (bases 04, 06) — após multiplayer
