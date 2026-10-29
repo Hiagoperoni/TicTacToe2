@@ -1,9 +1,11 @@
 /**
- * Célula do sub-tabuleiro (SPEC-003 A2): glifo X/O, pré-seleção (50% alfa) e overlay
- * de quadrante finalizado (glifo gigante + `pointer-events: none`).
+ * Célula do sub-tabuleiro (SPEC-003 A2): marca X/O em SVG procedural,
+ * pré-seleção (marca de caneta fantasma a 50% alfa + anel âmbar) e estado
+ * finalizado (marcas translúcidas sob o carimbo macro, `pointer-events: none`).
  */
 
 import { microStatus, type GameState, type MicroStatus } from '@ttt/shared/domain';
+import { Mark, type MarkId } from './marks';
 
 export interface CellProps {
   readonly board: number;
@@ -14,13 +16,14 @@ export interface CellProps {
   readonly finalized: boolean;
   readonly disabled: boolean;
   readonly onPress: (move: { readonly board: number; readonly cell: number }) => void;
+  readonly onHover?: (move: { readonly board: number; readonly cell: number } | null) => void;
 }
 
-const GLYPH_FOR_CELL = (state: GameState, board: number, cell: number): string => {
+const GLYPH_FOR_CELL = (state: GameState, board: number, cell: number): MarkId | null => {
   const bit = 1 << cell;
   if ((state.x[board] & bit) !== 0) return 'X';
   if ((state.o[board] & bit) !== 0) return 'O';
-  return '';
+  return null;
 };
 
 export function Cell({
@@ -32,9 +35,11 @@ export function Cell({
   finalized,
   disabled,
   onPress,
+  onHover,
 }: CellProps) {
   const status: MicroStatus = microStatus(state, board);
   const glyph = GLYPH_FOR_CELL(state, board, cell);
+  const playerMark: MarkId = state.player === 1 ? 'X' : 'O';
 
   const className = [
     'ttt-cell',
@@ -45,6 +50,11 @@ export function Cell({
     .filter(Boolean)
     .join(' ');
 
+  const label =
+    `Quadrante ${board}, sub-célula ${cell}` +
+    (glyph !== null ? `, marca ${glyph}` : '') +
+    (finalized ? ', quadrante finalizado' : selected ? ', pré-selecionada' : '');
+
   return (
     <button
       type="button"
@@ -54,14 +64,24 @@ export function Cell({
       data-status={status}
       data-selected={selected ? 'true' : 'false'}
       disabled={disabled || finalized}
-      aria-label={`Quadrante ${board}, sub-célula ${cell}`}
+      aria-label={label}
       onClick={() => onPress({ board, cell })}
+      onMouseEnter={onHover === undefined ? undefined : () => onHover({ board, cell })}
+      onMouseLeave={onHover === undefined ? undefined : () => onHover(null)}
+      onFocus={onHover === undefined ? undefined : () => onHover({ board, cell })}
+      onBlur={onHover === undefined ? undefined : () => onHover(null)}
       style={finalized ? { pointerEvents: 'none' } : undefined}
     >
-      {finalized ? (
-        <span className="ttt-cell__final-glyph">{status === 'wonX' ? 'X' : status === 'wonO' ? 'O' : 'D'}</span>
+      {glyph !== null ? (
+        <span className={`ttt-cell__glyph ttt-cell__glyph--${glyph.toLowerCase()} ttt-cell__glyph--played`}>
+          <Mark id={glyph} />
+        </span>
+      ) : selected ? (
+        <span className={`ttt-cell__glyph ttt-cell__glyph--${playerMark.toLowerCase()} ttt-cell__glyph--ghost`}>
+          <Mark id={playerMark} />
+        </span>
       ) : (
-        <span className="ttt-cell__glyph">{glyph}</span>
+        <span className="ttt-cell__glyph" aria-hidden="true" />
       )}
     </button>
   );

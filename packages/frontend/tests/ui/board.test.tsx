@@ -14,11 +14,11 @@ describe('Board (SPEC-003 A2)', () => {
     expect(container.querySelectorAll('.ttt-cell')).toHaveLength(81);
   });
 
-  it('renderiza a jogada no glyph da célula (X em board 4, cell 6)', () => {
+  it('renderiza a jogada na célula (X em board 4, cell 6 — marca SVG procedural)', () => {
     const state = applyMove(initialState(), { board: 4, cell: 6 });
     render(<Board state={state} onPlay={() => {}} onZoom={() => {}} />);
     const cell = document.querySelector('[data-board="4"][data-cell="6"]') as HTMLElement;
-    expect(cell.textContent).toBe('X');
+    expect(cell.querySelector('svg[data-mark="X"]')).toBeTruthy();
   });
 
   it('quadrante finalizado: overlay de glifo gigante + pointer-events none', () => {

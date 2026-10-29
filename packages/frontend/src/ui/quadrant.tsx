@@ -1,6 +1,7 @@
 /**
  * Quadrante (micro-tabuleiro 3x3) dentro do macro-tabuleiro (SPEC-003 A2).
- * `overview`: grade compacta dos 9 sub-células; `focused`: grade ampliada (auto-zoom).
+ * `overview`: grade compacta das 9 sub-células; `focused`: grade ampliada
+ * (auto-zoom). `isDestination` marca o destino tático do preview no hover.
  */
 
 import { microStatus, type GameState, type MicroStatus } from '@ttt/shared/domain';
@@ -14,9 +15,13 @@ export interface QuadrantProps {
   readonly variant: QuadrantVariant;
   readonly state: GameState;
   readonly isActive: boolean;
+  readonly isDestination?: boolean;
+  /** Onda visual de confirmação (aqui entrou a última marca). */
+  readonly isWave?: boolean;
   readonly ghost: boolean;
   readonly selectedCell: number | null;
   readonly onCellPress: (move: { readonly board: number; readonly cell: number }) => void;
+  readonly onCellHover?: (move: { readonly board: number; readonly cell: number } | null) => void;
 }
 
 export function Quadrant({
@@ -24,9 +29,12 @@ export function Quadrant({
   variant,
   state,
   isActive,
+  isDestination = false,
+  isWave = false,
   ghost,
   selectedCell,
   onCellPress,
+  onCellHover,
 }: QuadrantProps) {
   const status: MicroStatus = microStatus(state, board);
   const finalized = status !== 'active';
@@ -35,6 +43,8 @@ export function Quadrant({
     'ttt-quadrant',
     `ttt-quadrant--${variant}`,
     isActive ? 'ttt-quadrant--active' : '',
+    isDestination ? 'ttt-quadrant--destination' : '',
+    isWave ? 'ttt-quadrant--wave' : '',
     finalized ? 'ttt-quadrant--finalized' : '',
   ]
     .filter(Boolean)
@@ -53,6 +63,7 @@ export function Quadrant({
         finalized={finalized}
         disabled={finalized}
         onPress={onCellPress}
+        onHover={onCellHover}
       />,
     );
   }

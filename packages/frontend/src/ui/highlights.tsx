@@ -1,12 +1,13 @@
 /**
  * Semiótica visual obrigatória (SPEC-003 §3, base05 §1.2–1.3):
- * - borda pulsante do quadrante ativo (1,2 Hz);
- * - ghost do destino do oponente (pré-visualização);
- * - overlay de quadrante finalizado (30% opacidade + blur + glifo gigante).
+ * - borda pulsante do quadrante ativo (1,2 Hz, viva em board.css);
+ * - ghost do destino do oponente (pré-visualização tática);
+ * - overlay de quadrante finalizado (marcas translúcidas + carimbo gigante).
  */
 
 import { isBoardResolved, type GameState, type MicroStatus, type Player } from '@ttt/shared/domain';
 import type { Move } from '@ttt/shared/domain';
+import { MacroStamp, type StampId } from './marks';
 
 /** Quadrante que recebe a jogada do oponente (próximo sub-tabuleiro da pré-seleção). */
 export function ghostBoardOf(selection: Move | null): number | null {
@@ -27,15 +28,15 @@ export function isActiveQuadrant(state: GameState, board: number): boolean {
   return !isBoardResolved(state, board);
 }
 
-const GLYPH_BY_STATUS: Record<MicroStatus, string> = {
-  active: '',
+const STAMP_BY_STATUS: Record<MicroStatus, StampId> = {
+  active: 'D',
   wonX: 'X',
   wonO: 'O',
   tied: 'D',
 };
 
-export function glyphForStatus(status: MicroStatus): string {
-  return GLYPH_BY_STATUS[status];
+export function glyphForStatus(status: MicroStatus): StampId {
+  return STAMP_BY_STATUS[status];
 }
 
 export function winnerLabel(winner: Player | null): string {
@@ -54,16 +55,11 @@ export function GhostHighlight({ board }: { readonly board: number }) {
   return <div className="ttt-highlight ttt-highlight--ghost" data-board={board} data-testid="ghost-highlight" />;
 }
 
-/** Overlay de quadrante finalizado: 30% opacidade + blur + glifo gigante. */
+/** Overlay de quadrante finalizado: marcas translúcidas + carimbo macro gigante. */
 export function FinalOverlay({ board, status }: { readonly board: number; readonly status: MicroStatus }) {
   return (
-    <div
-      className="ttt-highlight ttt-highlight--final"
-      data-board={board}
-      data-testid="final-overlay"
-      style={{ opacity: 0.3, pointerEvents: 'none' }}
-    >
-      <span className="ttt-highlight__glyph">{glyphForStatus(status)}</span>
+    <div className="ttt-highlight ttt-highlight--final" data-board={board} data-testid="final-overlay">
+      <MacroStamp id={glyphForStatus(status)} />
     </div>
   );
 }
