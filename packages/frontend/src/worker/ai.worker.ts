@@ -1,25 +1,12 @@
 /**
  * Web Worker do motor de IA: recebe o estado + dificuldade e devolve a jogada.
  * Toda a lógica pesada fica em packages/shared/src/ai (puro); o worker só transporta.
+ * Contratos (AiRequest/AiResponse) são do `@ttt/shared/contracts` (SPEC-003 §1.1, Task 0 / B1).
  */
 
-import type { GameState } from '@ttt/shared/domain';
+import type { AiRequest, AiResponse } from '@ttt/shared/contracts';
 import { search } from '@ttt/shared/ai/mcts';
-import { optionsFor, type Difficulty } from '@ttt/shared/ai/difficulty';
-
-export interface AiRequest {
-  readonly id: number;
-  readonly state: GameState;
-  readonly difficulty: Difficulty;
-  readonly seed: number;
-}
-
-export interface AiResponse {
-  readonly id: number;
-  readonly move: { board: number; cell: number } | null;
-  readonly iterations: number;
-  readonly elapsedMs: number;
-}
+import { optionsFor } from '@ttt/shared/ai/difficulty';
 
 const scope = self as unknown as {
   onmessage: ((event: MessageEvent<AiRequest>) => void) | null;
