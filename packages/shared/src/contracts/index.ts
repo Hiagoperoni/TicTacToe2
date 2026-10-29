@@ -23,3 +23,11 @@ export type {
   RoomStatus,
 } from './server-protocol';
 export type { OnlineSnapshot, OnlineSession } from './online-session';
+export type { AiRequest, AiResponse, AiPort } from './ai-worker';
+export type {
+  MatchMode,
+  GameSnapshot,
+  GameSession,
+  ResetOptions,
+} from './game-session';
+export { createLocalSession } from '../session/local-session';
