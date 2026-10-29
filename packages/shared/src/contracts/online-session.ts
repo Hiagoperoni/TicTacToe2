@@ -1,5 +1,4 @@
 
-
 import type { GameState, Move, Player } from '../domain';
 import type { RoomStatus } from './server-protocol';
 
