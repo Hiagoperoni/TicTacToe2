@@ -3,8 +3,7 @@
  * O worker recebe `AiRequest` e devolve `AiResponse` (assinaturas de Task 0).
  */
 
-import type { AiPort } from './ai-port';
-import type { AiRequest, AiResponse } from '../worker/ai.worker';
+import type { AiPort, AiRequest, AiResponse } from '@ttt/shared/contracts';
 
 /** Contrato mínimo do worker usado pelo `AiPort` (estrutura leve do Web Worker). */
 interface WorkerLike {

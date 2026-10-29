@@ -5,8 +5,7 @@
  */
 
 import { legalMoves, type Move } from '@ttt/shared/domain';
-import type { AiPort } from '../session/ai-port';
-import type { AiRequest, AiResponse } from '../worker/ai.worker';
+import type { AiPort, AiRequest, AiResponse } from '@ttt/shared/contracts';
 
 export class FakeAi implements AiPort {
   readonly request: AiPort['request'] = async (request: AiRequest): Promise<AiResponse> => {
