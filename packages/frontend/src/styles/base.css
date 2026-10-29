@@ -1,0 +1,231 @@
+/**
+ * Base — folha de papel, casca do app (header/main/footer) e elementos de texto.
+ * Mobile-first: 360×640 sem rolagem; o tabuleiro ocupa o resto da altura.
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-meta);
+  color: var(--graphite);
+  background-color: var(--paper-1);
+  background-image:
+    radial-gradient(130% 90% at 50% -25%, var(--paper-hi) 0%, rgb(251 246 234 / 0) 62%),
+    radial-gradient(90% 65% at 112% 112%, rgb(176 143 79 / 0.12) 0%, rgb(176 143 79 / 0) 55%),
+    radial-gradient(85% 60% at -12% 102%, rgb(122 102 64 / 0.12) 0%, rgb(122 102 64 / 0) 52%),
+    repeating-linear-gradient(0deg, rgb(51 49 43 / 0.016) 0 1px, rgb(51 49 43 / 0) 1px 3px);
+  -webkit-tap-highlight-color: transparent;
+}
+
+#root {
+  height: 100%;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.ttt-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ——— Casca do app ——— */
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--sp-2) var(--sp-3) var(--sp-1);
+}
+
+.app__header {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  padding-bottom: var(--sp-2);
+  border-bottom: var(--w-micro) solid var(--line-micro);
+}
+
+.app__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(17px, 5.4vw, 26px);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-align: center;
+  color: var(--graphite);
+  text-shadow: 0 1px 0 rgb(251 246 234 / 0.9);
+}
+
+.app__title::after {
+  content: '';
+  display: block;
+  width: 72px;
+  height: 2px;
+  margin: 3px auto 0;
+  border-radius: 2px;
+  background: linear-gradient(90deg, rgb(169 123 29 / 0) 0%, var(--ochre) 50%, rgb(169 123 29 / 0) 100%);
+}
+
+.app__status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.app__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-variant: small-caps;
+  letter-spacing: var(--tracking-caps);
+  color: var(--graphite-soft);
+  background: var(--paper-0);
+  border: var(--w-micro) solid var(--line-micro);
+  border-radius: 999px;
+}
+
+.app__chip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--slate);
+  flex: 0 0 auto;
+}
+
+.app__chip--turn-x .app__chip-dot {
+  background: var(--ink);
+}
+
+.app__chip--turn-o .app__chip-dot {
+  background: var(--terra);
+}
+
+.app__chip--thinking .app__chip-dot {
+  animation: think-blink var(--pulse-hz) ease-in-out infinite alternate;
+}
+
+.app__chip strong {
+  font-weight: 700;
+  color: var(--graphite);
+}
+
+/* — Botão carimbo — */
+
+.app__reset {
+  padding: 4px 14px;
+  font-size: 12px;
+  font-variant: small-caps;
+  letter-spacing: var(--tracking-caps);
+  color: var(--graphite);
+  background: var(--paper-0);
+  border: var(--w-macro) solid var(--line-macro);
+  border-radius: var(--radius-quad);
+  box-shadow: 0 2px 0 var(--paper-3);
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+}
+
+.app__reset:hover {
+  transform: translateY(-1px) rotate(-0.6deg);
+  box-shadow: 0 3px 0 var(--paper-3), var(--shadow-paper);
+}
+
+.app__reset:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 var(--paper-3);
+}
+
+/* — Tabuleiro — */
+
+.app__board {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  padding: var(--sp-2) 0;
+  container-type: size;
+  position: relative;
+}
+
+/* — Carimbo de fim de jogo — */
+
+.app__result {
+  position: absolute;
+  inset: auto 0 var(--sp-2);
+  margin: 0 auto;
+  width: max-content;
+  max-width: 92%;
+  padding: 6px 18px;
+  font-family: var(--font-display);
+  font-size: clamp(14px, 4vw, 18px);
+  font-weight: 700;
+  font-variant: small-caps;
+  letter-spacing: 0.08em;
+  color: var(--graphite);
+  text-align: center;
+  background: var(--paper-0);
+  border: var(--w-macro) solid var(--line-macro);
+  border-radius: var(--radius-paper);
+  box-shadow: var(--shadow-lift);
+  animation: stamp-in var(--dur-mid) var(--ease-stamp) both;
+}
+
+/* — Rodapé — */
+
+.app__footer {
+  flex: 0 0 auto;
+  padding-top: var(--sp-1);
+  font-size: 11px;
+  font-variant: small-caps;
+  letter-spacing: var(--tracking-caps);
+  text-align: center;
+  color: var(--graphite-soft);
+  border-top: var(--w-micro) solid var(--line-micro);
+}
+
+/* — Vinheta do screen shake (R3.4) — */
+
+.app__board--shake {
+  animation: board-shake 120ms var(--ease-out) both;
+}
+
+.app__shake {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  background: radial-gradient(120% 90% at 50% 50%, rgb(140 47 38 / 0) 55%, rgb(140 47 38 / 0.22) 100%);
+  animation: shake-flash 120ms var(--ease-out) both;
+}

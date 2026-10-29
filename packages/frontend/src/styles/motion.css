@@ -1,0 +1,143 @@
+/**
+ * Motion — keyframes de game feel (SPEC-003 R3.4): pulso 1,2 Hz do quadrante
+ * ativo, assentamento da marca, carimbo de conquista, onda de confirmação,
+ * respiração do ghost e entrada da visão geral. Tudo CSS puro, alvo de 60 FPS
+ * (só transform/opacity) e com respeito a `prefers-reduced-motion`.
+ */
+
+@keyframes active-pulse {
+  from {
+    box-shadow: inset 0 0 0 2px rgb(201 154 46 / 0.5);
+  }
+  to {
+    box-shadow: inset 0 0 0 4px rgb(201 154 46 / 0.95);
+  }
+}
+
+@keyframes mark-settle {
+  0% {
+    transform: scale(0.55) rotate(-4deg);
+    opacity: 0.2;
+  }
+  70% {
+    transform: scale(1.08) rotate(1deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes stamp-in {
+  0% {
+    transform: scale(1.7) rotate(-7deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(0.94) rotate(1.5deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes ghost-breathe {
+  from {
+    opacity: 0.34;
+  }
+  to {
+    opacity: 0.6;
+  }
+}
+
+@keyframes destination-breathe {
+  from {
+    outline-color: rgb(201 154 46 / 0.45);
+  }
+  to {
+    outline-color: rgb(201 154 46 / 1);
+  }
+}
+
+@keyframes wave-out {
+  0% {
+    transform: scale(0.985);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.1);
+    opacity: 0;
+  }
+}
+
+@keyframes overview-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.975);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shake-flash {
+  0% {
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes board-shake {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-4px, 2px);
+  }
+  50% {
+    transform: translate(4px, -2px);
+  }
+  75% {
+    transform: translate(-2px, -1px);
+  }
+}
+
+@keyframes think-blink {
+  from {
+    opacity: 0.25;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ttt-quadrant--active,
+  .ttt-highlight--active-border,
+  .ttt-quadrant--destination,
+  .ttt-highlight--ghost,
+  .ttt-cell__glyph--ghost,
+  .ttt-cell__glyph--played,
+  .ttt-highlight--final .ttt-stamp,
+  .ttt-quadrant--focused,
+  .ttt-board__grid,
+  .app__result,
+  .app__shake,
+  .app__board--shake,
+  .app__chip--thinking .app__chip-dot,
+  .ttt-quadrant--wave::after {
+    animation: none;
+  }
+
+  .ttt-quadrant--active {
+    box-shadow: inset 0 0 0 3px rgb(201 154 46 / 0.9);
+  }
+}

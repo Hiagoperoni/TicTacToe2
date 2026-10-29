@@ -1,0 +1,65 @@
+/**
+ * Design tokens — identidade "Papel & Grafite" (SPEC-003 estética).
+ * Paleta aconchegante de baixo cansaço visual: papel creme, grafite, ardósia,
+ * tinta nanquim (X) e terracota (O). Contraste WCAG AA sobre papel verificado.
+ * Nenhum asset: texturas e marcas são procedurais (gradientes + SVG inline).
+ */
+
+:root {
+  /* — Papel — */
+  --paper-hi: #fbf6ea;
+  --paper-0: #f7f0dd;
+  --paper-1: #f3ead3;
+  --paper-2: #eadfc3;
+  --paper-3: #e0d2b0;
+
+  /* — Grafite / ardósia (texto e traços) — */
+  --graphite: #33312b;
+  --graphite-soft: #6b6659;
+  --slate: #8a8474;
+
+  /* — Tintas — */
+  --ink: #1e3a5c;
+  --terra: #a8402f;
+  --ochre: #a97b1d;
+  --ochre-hi: #c99a2e;
+
+  /* — Linhas do grid — */
+  --line-micro: #c2af84;
+  --line-macro: #38332a;
+  --gutter-macro: 3px;
+
+  /* — Espaçamento (escala 4px) — */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+
+  /* — Traços e raios orgânicos (marcas feitas à mão) — */
+  --w-micro: 1px;
+  --w-macro: 2.5px;
+  --radius-cell: 3px;
+  --radius-quad: 7px 4px 8px 5px / 5px 8px 4px 7px;
+  --radius-paper: 10px 7px 12px 8px / 8px 12px 7px 10px;
+
+  /* — Elevação de papel — */
+  --shadow-paper: 0 1px 1px rgb(51 49 43 / 0.14), 0 10px 22px -14px rgb(51 49 43 / 0.5);
+  --shadow-lift: 0 2px 2px rgb(51 49 43 / 0.16), 0 14px 26px -12px rgb(51 49 43 / 0.55);
+
+  /* — Tipografia — */
+  --font-display: Georgia, 'Times New Roman', 'Iowan Old Style', serif;
+  --font-meta: Georgia, 'Times New Roman', serif;
+  --tracking-caps: 0.14em;
+
+  /* — Ritmo de animação (pulso ativo 1,2 Hz = 833 ms) — */
+  --pulse-hz: 833ms;
+  --dur-fast: 140ms;
+  --dur-mid: 260ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.3, 1);
+  --ease-stamp: cubic-bezier(0.2, 0.9, 0.25, 1.25);
+
+  /* — Foco acessível — */
+  --focus-ring: 2px dashed var(--ochre);
+  --focus-ring-offset: 2px;
+}

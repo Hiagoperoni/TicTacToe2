@@ -1,0 +1,9 @@
+/**
+ * Entrada do sistema visual "Papel & Grafite" — ordem importa:
+ * tokens → base (folha/casca) → tabuleiro → motion (keyframes).
+ */
+
+@import './tokens.css';
+@import './base.css';
+@import './board.css';
+@import './motion.css';
